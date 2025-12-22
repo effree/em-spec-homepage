@@ -771,13 +771,13 @@
             );
 
             const macIntelAsset = release.assets.find(asset =>
-                (asset.name.toLowerCase().includes('mac') || asset.name.toLowerCase().includes('darwin')) &&
-                (asset.name.toLowerCase().includes('x64') || asset.name.toLowerCase().includes('intel'))
+                (asset.name.toLowerCase().includes('mac') || asset.name.toLowerCase().includes('darwin') || asset.name.toLowerCase().includes('.dmg')) &&
+                (asset.name.toLowerCase().includes('x64') || asset.name.toLowerCase().includes('intel') || asset.name.toLowerCase().includes('x86_64'))
             );
 
             const macArmAsset = release.assets.find(asset =>
-                (asset.name.toLowerCase().includes('mac') || asset.name.toLowerCase().includes('darwin')) &&
-                (asset.name.toLowerCase().includes('arm64') || asset.name.toLowerCase().includes('apple'))
+                (asset.name.toLowerCase().includes('mac') || asset.name.toLowerCase().includes('darwin') || asset.name.toLowerCase().includes('.dmg')) &&
+                (asset.name.toLowerCase().includes('arm64') || asset.name.toLowerCase().includes('apple') || asset.name.toLowerCase().includes('aarch64'))
             );
 
             const anyMacAsset = release.assets.find(asset =>
@@ -809,8 +809,11 @@
 
             // Update Specific Buttons in List
             if (windowsAsset) document.getElementById('winDownloadLink').href = windowsAsset.browser_download_url;
-            if (macIntelAsset || anyMacAsset) document.getElementById('macIntelDownloadLink').href = (macIntelAsset || anyMacAsset).browser_download_url;
-            if (macArmAsset || anyMacAsset) document.getElementById('macArmDownloadLink').href = (macArmAsset || anyMacAsset).browser_download_url;
+            if (macIntelAsset) document.getElementById('macIntelDownloadLink').href = macIntelAsset.browser_download_url;
+            else if (anyMacAsset) document.getElementById('macIntelDownloadLink').href = anyMacAsset.browser_download_url;
+
+            if (macArmAsset) document.getElementById('macArmDownloadLink').href = macArmAsset.browser_download_url;
+            else if (anyMacAsset) document.getElementById('macArmDownloadLink').href = anyMacAsset.browser_download_url;
         }
 
         // Gallery & Lightbox Logic
