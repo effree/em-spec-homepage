@@ -446,6 +446,24 @@
             background: rgba(255, 255, 255, 0.05);
         }
 
+        /* Download Button Container for Hero */
+        .download-btn-container {
+            display: flex;
+            gap: 12px;
+            width: 100%;
+            margin-top: auto;
+        }
+
+        .download-btn-container .btn-primary {
+            flex: 1;
+        }
+
+        @media (max-width: 600px) {
+            .download-btn-container {
+                flex-direction: column;
+            }
+        }
+
         /* Download Options (Orange Panel) */
         .download-list {
             display: flex;
@@ -699,6 +717,8 @@
         }
 
         .topnav-link {
+            font-family: 'SF Mono', monospace;
+            font-size: .75rem;
             transition: all 0.2s ease-in-out;
         }
 
@@ -707,7 +727,6 @@
         }
 
         .topnav-link:hover {
-            font-family: 'SF Mono', monospace;
             background: rgba(0, 0, 0, 0.3);
             padding: 2px 6px;
             border-radius: 4px;
@@ -761,14 +780,9 @@
             const versionTags = document.querySelectorAll('.version-tag-text');
             versionTags.forEach(tag => tag.textContent = release.tag_name || 'v0.4.x');
 
-            let downloadUrl = release.html_url;
-            let icon = 'bx bx-arrow-down-stroke-circle';
-            let buttonText = 'Download Now';
-
-            // Logic to find specific assets
+            // Logic to find specific assets - Robust matching for EMSPEC or EM-Spec
             const windowsAsset = release.assets.find(asset =>
-                asset.name.toLowerCase().includes('win') ||
-                asset.name.toLowerCase().includes('windows') ||
+                (asset.name.toLowerCase().includes('win') || asset.name.toLowerCase().includes('windows') || asset.name.toLowerCase().includes('setup')) &&
                 asset.name.toLowerCase().includes('.exe')
             );
 
@@ -788,34 +802,54 @@
                 asset.name.toLowerCase().includes('.dmg')
             );
 
-            // Auto-detect Main Button
-            if (detection.os === 'Windows' && windowsAsset) {
-                downloadUrl = windowsAsset.browser_download_url;
-                icon = 'bxl bx-microsoft-windows';
-                buttonText = 'Download for Windows';
-            } else if (detection.os === 'macOS') {
-                const targetAsset = detection.architecture === 'arm64' ? (macArmAsset || anyMacAsset) : (macIntelAsset || anyMacAsset);
-                if (targetAsset) {
-                    downloadUrl = targetAsset.browser_download_url;
-                    icon = 'bxl bx-apple';
-                    buttonText = 'Download for macOS';
+            const mainDownloadContainer = document.getElementById('mainDownloadContainer');
+
+            if (detection.os === 'macOS') {
+                // Show both buttons for Mac
+                mainDownloadContainer.innerHTML = `
+                    <a href="${(macIntelAsset || anyMacAsset).browser_download_url}" class="btn btn-primary">
+                        <i class='bxl bx-apple'></i> Intel Mac
+                    </a>
+                    <a href="${(macArmAsset || anyMacAsset).browser_download_url}" class="btn btn-primary">
+                        <i class='bxl bx-apple'></i> M1/M2/M3
+                    </a>
+                `;
+            } else {
+                // Single button for Windows or fallback
+                let downloadUrl = release.html_url;
+                let icon = 'bx bx-arrow-down-stroke-circle';
+                let buttonText = 'Download Now';
+
+                if (detection.os === 'Windows' && windowsAsset) {
+                    downloadUrl = windowsAsset.browser_download_url;
+                    icon = 'bxl bx-microsoft-windows';
+                    buttonText = 'Download for Windows';
                 }
+
+                mainDownloadContainer.innerHTML = `
+                    <a href="${downloadUrl}" class="btn btn-primary">
+                        <i class="${icon}"></i> ${buttonText}
+                    </a>
+                `;
             }
 
-            // Update Main Hero Button
-            const mainBtn = document.getElementById('mainDownloadBtn');
-            if (mainBtn) {
-                mainBtn.href = downloadUrl;
-                mainBtn.innerHTML = `<i class="${icon}"></i> ${buttonText}`;
+            // Update Specific Buttons in List (bottom panel)
+            if (windowsAsset) {
+                const winLink = document.getElementById('winDownloadLink');
+                winLink.href = windowsAsset.browser_download_url;
             }
 
-            // Update Specific Buttons in List
-            if (windowsAsset) document.getElementById('winDownloadLink').href = windowsAsset.browser_download_url;
-            if (macIntelAsset) document.getElementById('macIntelDownloadLink').href = macIntelAsset.browser_download_url;
-            else if (anyMacAsset) document.getElementById('macIntelDownloadLink').href = anyMacAsset.browser_download_url;
+            if (macIntelAsset) {
+                document.getElementById('macIntelDownloadLink').href = macIntelAsset.browser_download_url;
+            } else if (anyMacAsset) {
+                document.getElementById('macIntelDownloadLink').href = anyMacAsset.browser_download_url;
+            }
 
-            if (macArmAsset) document.getElementById('macArmDownloadLink').href = macArmAsset.browser_download_url;
-            else if (anyMacAsset) document.getElementById('macArmDownloadLink').href = anyMacAsset.browser_download_url;
+            if (macArmAsset) {
+                document.getElementById('macArmDownloadLink').href = macArmAsset.browser_download_url;
+            } else if (anyMacAsset) {
+                document.getElementById('macArmDownloadLink').href = anyMacAsset.browser_download_url;
+            }
         }
 
         // Gallery & Lightbox Logic
@@ -922,8 +956,8 @@
                     style="border:none; display:flex;padding:4px; text-decoration: none;"><i class='bxl bx-youtube'
                         style="font-size: 18px;"></i></a>
                 <a href="https://discord.gg/ZgvVdrJZ" target="_blank" class="btn-secondary topnav-link"
-                    style="border:none; display:flex;padding:4px; text-decoration: none;"><i class='bxl bx-discord'
-                        style="font-size: 18px;"></i> Help</a>
+                    style="border:none; display:flex;padding:4px; text-decoration: none;"><i class='bxl bx-discord-alt'
+                        style="font-size: 18px; padding-right:.5rem;"></i> Help</a>
             </div>
         </header>
 
@@ -948,10 +982,11 @@
                         The missing visual link in your production chain.
                     </p>
                     <div style="margin-top: auto;">
-                        <a href="https://github.com/effree/EM-Spec/releases" id="mainDownloadBtn"
-                            class="btn btn-primary">
-                            <i class='bx bx-loader-alt bx-spin'></i> Loading...
-                        </a>
+                        <div id="mainDownloadContainer" class="download-btn-container">
+                            <a href="https://github.com/effree/EM-Spec/releases" class="btn btn-primary">
+                                <i class='bx bx-loader-alt bx-spin'></i> Loading...
+                            </a>
+                        </div>
                         <p style="margin-top: 10px; font-size: 11px; color: var(--text-muted); text-align: center;">
                             Requires Windows 10+ or macOS 10.13+
                         </p>
