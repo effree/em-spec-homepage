@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wiki - EMSPEC Help</title>
+    <link rel="icon" href="../assets/favicon.ico" type="image/x-icon" sizes="64x64">
+    <!-- Boxicons -->
+    <link href='https://cdn.boxicons.com/3.0.3/fonts/basic/boxicons.min.css' rel='stylesheet'>
+    <link href='https://cdn.boxicons.com/3.0.3/fonts/brands/boxicons-brands.min.css' rel='stylesheet'>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Urbanist:wght@300;400;500;600;700&family=SF+Mono&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --background: #1a1c23;
+            --surface: #23262f;
+            --surface-hover: #2d313c;
+            --border: #121318;
+            --text-primary: #d0d2d6;
+            --text-secondary: #8b92a0;
+            --text-muted: #5c6270;
+            --accent-pink: #d946ef;
+            --accent-blue: #3b82f6;
+            --accent-orange: #f97316;
+            --accent-purple: #a855f7;
+            --glow-pink: 0 0 15px rgba(217, 70, 239, 0.15);
+            --sidebar-width: 280px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            line-height: 1.6;
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+            background:
+                repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.03) 0px, rgba(255, 255, 255, 0.03) 1px, transparent 1px, transparent 2px),
+                repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.03) 0px, rgba(255, 255, 255, 0.03) 1px, transparent 1px, transparent 2px),
+                radial-gradient(circle at 50% 30%, #252832 0%, #1a1c23 60%, #111216 100%);
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: #23262f;
+            border-right: 1px solid #000;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            z-index: 10;
+            box-shadow: 4px 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .sidebar-header {
+            padding: 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .sidebar-header img {
+            width: 32px;
+            height: 32px;
+        }
+
+        .sidebar-header h1 {
+            font-family: 'Urbanist', sans-serif;
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #fff;
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 0;
+        }
+
+        .nav-group {
+            margin-bottom: 24px;
+        }
+
+        .nav-group-title {
+            padding: 0 24px 8px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            font-weight: 700;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 24px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+        }
+
+        .nav-link.active {
+            background: rgba(217, 70, 239, 0.1);
+            color: var(--accent-pink);
+            border-left-color: var(--accent-pink);
+        }
+
+        .nav-sub-link {
+            padding-left: 52px;
+            font-size: 13px;
+        }
+
+        /* Main Content Styling */
+        .main-content {
+            flex: 1;
+            height: 100%;
+            overflow-y: auto;
+            padding: 40px 60px;
+            scroll-behavior: smooth;
+            position: relative;
+            z-index: 5;
+        }
+
+        .wiki-section {
+            max-width: 800px;
+            margin-bottom: 80px;
+        }
+
+        .section-header {
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .section-header h2 {
+            font-family: 'Urbanist', sans-serif;
+            font-size: 32px;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .wiki-section h3 {
+            font-size: 20px;
+            color: var(--accent-pink);
+            margin: 32px 0 16px;
+        }
+
+        .wiki-section p {
+            margin-bottom: 16px;
+            color: var(--text-primary);
+        }
+
+        .wiki-section ul {
+            margin-bottom: 16px;
+            padding-left: 20px;
+        }
+
+        .wiki-section li {
+            margin-bottom: 8px;
+        }
+
+        .info-box {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            padding: 16px;
+            border-radius: 8px;
+            margin: 24px 0;
+            display: flex;
+            gap: 16px;
+        }
+
+        .info-box i {
+            color: var(--accent-blue);
+            font-size: 24px;
+        }
+
+        .warning-box {
+            background: rgba(249, 115, 22, 0.1);
+            border: 1px solid rgba(249, 115, 22, 0.2);
+            padding: 16px;
+            border-radius: 8px;
+            margin: 24px 0;
+            display: flex;
+            gap: 16px;
+        }
+
+        .warning-box i {
+            color: var(--accent-orange);
+            font-size: 24px;
+        }
+
+        code {
+            font-family: 'SF Mono', monospace;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+
+        .back-home {
+            margin-top: auto;
+            padding: 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .btn-back {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 13px;
+            transition: color 0.2s;
+        }
+
+        .btn-back:hover {
+            color: #fff;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #3a3f4b;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4a505f;
+        }
+
+        @media (max-width: 900px) {
+            body {
+                flex-direction: column;
+                overflow-y: auto;
+                height: auto;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+
+            .main-content {
+                padding: 20px;
+                overflow-y: visible;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <a href="../index.html">
+                <img src="../assets/icon.png" alt="EMSPEC">
+            </a>
+            <h1>EMSPEC Wiki</h1>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-group">
+                <div class="nav-group-title">Getting Started</div>
+                <a href="#installation" class="nav-link"><i class='bx bx-arrow-to-bottom-stroke'></i> Installation</a>
+                <a href="#installation-windows" class="nav-link nav-sub-link">Windows</a>
+                <a href="#installation-mac" class="nav-link nav-sub-link">macOS</a>
+                <a href="#setup" class="nav-link"><i class='bx bx-cog'></i> Setup</a>
+                <a href="#setup-windows" class="nav-link nav-sub-link">Windows</a>
+                <a href="#setup-mac" class="nav-link nav-sub-link">macOS</a>
+            </div>
+
+            <div class="nav-group">
+                <div class="nav-group-title">Audio Engine</div>
+                <a href="#vst-vs-loopback" class="nav-link"><i class='bx bx-plug-connect'></i> VST vs Loopback</a>
+                <a href="#vst-installation" class="nav-link nav-sub-link">VST Installation</a>
+                <a href="#vst-usage" class="nav-link nav-sub-link">Usage</a>
+            </div>
+
+            <div class="nav-group">
+                <div class="nav-group-title">Feature Guide</div>
+                <a href="#settings" class="nav-link"><i class='bx bx-slider-alt'></i> Settings Overview</a>
+                <a href="#stereoscope" class="nav-link"><i class='bx bx-pulse'></i> Stereoscope</a>
+                <a href="#stereoscope-options" class="nav-link nav-sub-link">Options</a>
+                <a href="#stereoscope-vst" class="nav-link nav-sub-link">VST vs Loopback</a>
+            </div>
+        </nav>
+        <div class="back-home">
+            <a href="../index.html" class="btn-back"><i class='bx bx-chevron-left'></i> Back to Homepage</a>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <!-- Installation Section -->
+        <section id="installation" class="wiki-section">
+            <div class="section-header">
+                <h2>Installation</h2>
+                <p>Get EMSPEC running on your machine.</p>
+            </div>
+
+            <div id="installation-windows">
+                <h3>Windows Installation</h3>
+                <p>1. Download the latest <code>EMSPEC-Setup-x.x.x.exe</code> from the homepage.</p>
+                <p>2. Run the installer. If Windows SmartScreen appears, click "More Info" and "Run Anyway".</p>
+                <p>3. The application will launch automatically once installed.</p>
+                <div class="info-box">
+                    <i class='bx bx-info-circle'></i>
+                    <div>
+                        <strong>Tip:</strong> EMSPEC will handle auto-updates automatically in the background by
+                        default.
+                    </div>
+                </div>
+            </div>
+
+            <div id="installation-mac">
+                <h3>macOS Installation</h3>
+                <p>1. Download the <code>.dmg</code> file appropriate for your architecture (Intel or Apple Silicon).
+                </p>
+                <p>2. Open the <code>.dmg</code> and drag EMSPEC to your Applications folder.</p>
+                <p>3. On first launch, you may need to right-click and select "Open" to bypass security prompts if the
+                    app is not yet notarized.</p>
+            </div>
+        </section>
+
+        <!-- Setup Section -->
+        <section id="setup" class="wiki-section">
+            <div class="section-header">
+                <h2>Setup</h2>
+                <p>Initial configuration and permissions.</p>
+            </div>
+
+            <div id="setup-windows">
+                <h3>Setup for Windows</h3>
+                <p>For the best experience on Windows, we recommend using the <strong>VST Audio Bridge</strong>. This
+                    avoids the limitations of system loopback and provides low-latency analysis.</p>
+                <p>Ensure your audio drivers are up to date. If using ASIO, see the VST section for integration details.
+                </p>
+            </div>
+
+            <div id="setup-mac">
+                <h3>Setup for macOS</h3>
+                <p>macOS requires explicit permission to record audio. When you first launch EMSPEC, you will be
+                    prompted for "Microphone" permissions. This is necessary for EMSPEC to capture the system audio
+                    loopback.</p>
+                <div class="warning-box">
+                    <i class='bx bx-alert-circle'></i>
+                    <div>
+                        <strong>Important:</strong> The Mac dialog box may be hidden behind EMSPEC, click and drag
+                        to move it out of the way.
+                        <br /><br />If you deny microphone access, EMSPEC will show a black screen
+                        or no
+                        signal. Re-enable it in System Settings > Privacy & Security > Microphone.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VST vs Loopback Section -->
+        <section id="vst-vs-loopback" class="wiki-section">
+            <div class="section-header">
+                <h2>VST Audio Bridge vs Loopback</h2>
+                <p>Understanding the two ways EMSPEC captures audio.</p>
+            </div>
+
+            <div id="vst-overview">
+                <h3>Overview</h3>
+                <p><strong>Loopback Audio:</strong> Captures everything your computer is playing. It's easy to set up
+                    but can include system sounds (notifications, browser audio) and has higher latency.</p>
+                <p><strong>VST Audio Bridge:</strong> A lightweight plugin you place on your DAW's master channel. It
+                    transmits audio directly to the EMSPEC standalone app with near-zero latency and high precision.</p>
+            </div>
+
+            <div id="vst-installation">
+                <h3>VST Installation</h3>
+                <p>1. Open EMSPEC Settings.</p>
+                <p>2. Locate the "VST Installation" section.</p>
+                <p>3. Click "Install to Default Location" or choose a custom folder where your DAW looks for plugins.
+                </p>
+                <p>4. Rescan plugins in your DAW (Ableton, FL Studio, Logic, etc.).</p>
+            </div>
+
+            <div id="vst-usage">
+                <h3>Usage</h3>
+                <p>Place the <code>EMSPEC Bridge</code> VST on any track you want to analyze. Usually, this is the end
+                    of your master chain. Once active, the EMSPEC standalone app will prioritize the VST signal over
+                    loopback.</p>
+                <p>In the Sttings window, toggle VST Audio Bridge to enable or disable the VST signal.</p>
+            </div>
+        </section>
+
+        <!-- Settings Overview Section -->
+        <section id="settings" class="wiki-section">
+            <div class="section-header">
+                <h2>Settings Overview</h2>
+                <p>Deep dive into the analysis parameters.</p>
+            </div>
+
+            <ul>
+                <li><strong>Auto-update:</strong> Enables or disables checking for and downloading new versions on
+                    launch.</li>
+                <li><strong>Presets:</strong> Save and recall specific configurations of the visualizer.</li>
+                <li><strong>FFT Size:</strong> Controls the frequency resolution. Higher values (e.g., 8192) give more
+                    detail in the bass but higher latency. It will also become more difficult to see details at higher
+                    scroll speeds.</li>
+                <li><strong>Scale:</strong> Move the slider to switch between Linear and Logarithmic frequency scaling.
+                </li>
+                <li><strong>Colormap:</strong> Changes the color palette of the spectrogram (e.g., Magma, Viridis,
+                    Inferno). Hover to view, click to select.</li>
+                <li><strong>Gain:</strong> Adjusts the input signal sensitivity.</li>
+                <li><strong>DB Range:</strong> Sets the dynamic range displayed (e.g., -60dB to 0dB).</li>
+                <li><strong>Low Boost:</strong> Enhances the visibility of low-end frequencies.</li>
+                <li><strong>Noise Gate:</strong> Filters out background noise below a certain threshold.</li>
+                <li><strong>Reassignment:</strong> A technique to sharpen the spectrogram by reassigning energy to its
+                    center of gravity. *recommended for accurate low-end frequency analysis*</li>
+                <li><strong>Natural Weighting:</strong> Adjusts the spectrum to better match human hearing (similar to
+                    A-weighting).</li>
+                <li><strong>Always on top:</strong> Keeps the EMSPEC window above all other windows.</li>
+            </ul>
+        </section>
+
+        <!-- Stereoscope Section -->
+        <section id="stereoscope" class="wiki-section">
+            <div class="section-header">
+                <h2>Stereoscope</h2>
+                <p>Visualizing the stereo field and phase relationships.</p>
+            </div>
+
+            <div id="stereoscope-options">
+                <h3>Options</h3>
+                <p>The Stereoscope provides a vectorscope (Lissajous) and a Correlation meter. You can toggle between
+                    different drawing modes and adjust the persistence of the visual trail.</p>
+            </div>
+
+            <div id="stereoscope-vst">
+                <h3>VST Audio vs Loopback</h3>
+                <p>When using the VST Bridge, the Stereoscope displays the exact stereo signal from your DAW. When using
+                    Loopback, it displays the combined stereo output of your system. Depending on your system, true
+                    stereo may not be possible. If your system is sending mono only data, EMSPEC will display mono data
+                    in a stereo field.</p>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Clicking sidebar link scrolls to section
+        document.querySelectorAll('.nav-link').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+
+                    // Update active class immediately
+                    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                }
+            });
+        });
+
+        // Highlighting active section in sidebar on scroll
+        const mainContent = document.querySelector('.main-content');
+        const sections = document.querySelectorAll('.wiki-section, .wiki-section > div[id]');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        mainContent.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (mainContent.scrollTop >= (sectionTop - 150)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
