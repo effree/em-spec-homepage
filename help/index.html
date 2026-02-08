@@ -293,6 +293,7 @@
                 <a href="#installation" class="nav-link"><i class='bx bx-arrow-to-bottom-stroke'></i> Installation</a>
                 <a href="#installation-windows" class="nav-link nav-sub-link">Windows</a>
                 <a href="#installation-mac" class="nav-link nav-sub-link">macOS</a>
+                <a href="#apple-silicon-fix" class="nav-link nav-sub-link">Apple Silicon Fix</a>
                 <a href="#setup" class="nav-link"><i class='bx bx-cog'></i> Setup</a>
                 <a href="#setup-windows" class="nav-link nav-sub-link">Windows</a>
                 <a href="#setup-mac" class="nav-link nav-sub-link">macOS</a>
@@ -347,6 +348,35 @@
                 <p>2. Open the <code>.dmg</code> and drag EMSPEC to your Applications folder.</p>
                 <p>3. On first launch, you may need to right-click and select "Open" to bypass security prompts if the
                     app is not yet notarized.</p>
+            </div>
+
+            <div id="apple-silicon-fix">
+                <h3>Apple Silicon (M1/M2/M3) "App is Damaged" Fix</h3>
+                <p>If you encounter an error stating that <strong>"EMSPEC is damaged and can't be opened"</strong> on
+                    an Apple Silicon (M1, M2, or M3) Mac, this is caused by macOS Gatekeeper blocking the application
+                    because it is currently unsigned.</p>
+
+                <h4>The Fix</h4>
+                <p>You can easily fix this by removing the "quarantine" flag that macOS automatically applies to
+                    downloaded files.</p>
+                <p>1. Open your <strong>Terminal</strong> (found in Applications > Utilities).</p>
+                <p>2. Copy and paste the following command:</p>
+                <code>sudo xattr -cr /Applications/EMSPEC.app</code>
+                <p><em>(Note: If you have installed the app in a different folder, please update the path
+                        accordingly.)</em></p>
+                <p>3. Press <strong>Enter</strong>. You may be asked for your Mac password.</p>
+                <p>4. You should now be able to open EMSPEC normally.</p>
+
+                <div class="info-box">
+                    <i class='bx bx-info-circle'></i>
+                    <div>
+                        <strong>Why does this happen?</strong>
+                        <br />To prevent malicious software, macOS requires developers to sign and notarize their apps
+                        with an Apple Developer account. Since EMSPEC is currently an open-source project being shared
+                        directly, it hasn't gone through this official Apple verification process yet. The command
+                        above simply tells your Mac that you trust this specific app.
+                    </div>
+                </div>
             </div>
         </section>
 
